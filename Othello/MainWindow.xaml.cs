@@ -22,7 +22,7 @@ namespace Othello
     {
         public MainWindow()
         {
-            //Magnifique commentaire
+            //Magnifique commentaire => Je valide qu'il est magnifique
             InitializeComponent();
         }
     }
