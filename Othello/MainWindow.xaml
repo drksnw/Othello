@@ -4,9 +4,55 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Othello"
+        xmlns:gif="https://github.com/XamlAnimatedGif/XamlAnimatedGif"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Title="MainWindow" Height="600" Width="1024">
+    <Window.Background>
+        <ImageBrush/>
+    </Window.Background>
     <Grid>
+        <Image gif:AnimationBehavior.SourceUri="/rainbow.gif" x:Name="image1" HorizontalAlignment="Left" Height="265" Margin="279,99,0,0" VerticalAlignment="Top" Width="488" RenderTransformOrigin="0.5,0.5">
+            <Image.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform ScaleX="2"/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Image.RenderTransform>
+        </Image>
+        <Image gif:AnimationBehavior.SourceUri="/rainbowdash.gif" Margin="10,140,764,196" />
+        <Image gif:AnimationBehavior.SourceUri="/pinkiepie.gif" x:Name="image" HorizontalAlignment="Left" Height="215" Margin="760,158,0,0" VerticalAlignment="Top" Width="229"/>
+
+        <Grid x:Name="GameGrid" HorizontalAlignment="Left" Height="453" Margin="257,75,0,0" VerticalAlignment="Top" Width="548">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+        </Grid>
         
+
+        <Grid.Background>
+            <ImageBrush ImageSource="bg.jpg"/>
+        </Grid.Background>
+
+
     </Grid>
 </Window>

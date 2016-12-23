@@ -22,8 +22,20 @@ namespace Othello
     {
         public MainWindow()
         {
-            //Magnifique commentaire => Je valide qu'il est magnifique
             InitializeComponent();
+            for(int i=0; i<8; i++)
+            {
+                for(int j=0; j<8; j++)
+                {
+                    Border b = new Border();
+                    b.BorderBrush = Brushes.Magenta;
+                    b.BorderThickness = new Thickness(2);
+                    b.Margin = new Thickness(0);
+                    GameGrid.Children.Add(b);
+                    Grid.SetRow(b, i);
+                    Grid.SetColumn(b, j);
+                }
+            }
         }
     }
 }
