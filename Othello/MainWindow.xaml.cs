@@ -115,5 +115,43 @@ namespace Othello
             char colChar = (char)(col + 97);
             game.playMove(colChar, row);
         }
+
+        private void OnHover(object sender, MouseEventArgs e)
+        {
+            var point = Mouse.GetPosition(GameGrid);
+
+            int row = 0;
+            int col = 0;
+            double accumulatedHeight = 0.0;
+            double accumulatedWidth = 0.0;
+
+            // calc row mouse was over
+            foreach (var rowDefinition in GameGrid.RowDefinitions)
+            {
+                accumulatedHeight += rowDefinition.ActualHeight;
+                if (accumulatedHeight >= point.Y)
+                    break;
+                row++;
+            }
+
+            // calc col mouse was over
+            foreach (var columnDefinition in GameGrid.ColumnDefinitions)
+            {
+                accumulatedWidth += columnDefinition.ActualWidth;
+                if (accumulatedWidth >= point.X)
+                    break;
+                col++;
+            }
+
+            row++;
+            char colChar = (char)(col + 97);
+
+            if (game.isPlayable(game.getCase(colChar, row)))
+            {
+                //Jeton en surbrillance
+            }
+        }
     }
+
+    
 }

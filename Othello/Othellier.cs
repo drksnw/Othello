@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Numerics;
 
 namespace Othello
 {
@@ -12,8 +9,20 @@ namespace Othello
         private Player white;
         private Player black;
 
+        //Player constants
         public static readonly int PLAYER_WHITE = 0;
         public static readonly int PLAYER_BLACK = 1;
+
+        //Movement constants
+        public static readonly Vector2 CASE_TOP = new Vector2( 0, -1 );
+        public static readonly Vector2 CASE_TOPRIGHT = new Vector2( 1, -1 );
+        public static readonly Vector2 CASE_RIGHT = new Vector2( 1, 0 );
+        public static readonly Vector2 CASE_BOTTOMRIGHT = new Vector2( 1, 1 );
+        public static readonly Vector2 CASE_BOTTOM = new Vector2( 0, 1 );
+        public static readonly Vector2 CASE_BOTTOMLEFT = new Vector2( -1, 1 );
+        public static readonly Vector2 CASE_LEFT = new Vector2( -1, 0 );
+        public static readonly Vector2 CASE_TOPLEFT = new Vector2( -1, -1 );
+
 
         private int playerTurn = PLAYER_BLACK;
         private MainWindow graphicContext;
@@ -41,6 +50,41 @@ namespace Othello
                 }
             }
             gameInit();
+        }
+
+        public Case getAdjacentWithDirection(Case c, Vector2 dir)
+        {
+            return getCase((char)(c.Column + dir.X), (int)(c.Row + dir.Y));
+        }
+
+        public Case[] getAdjacent(Case c)
+        {
+            return new Case[] {getAdjacentWithDirection(c, CASE_TOP), getAdjacentWithDirection(c, CASE_TOPRIGHT),
+                                getAdjacentWithDirection(c, CASE_RIGHT) , getAdjacentWithDirection(c, CASE_BOTTOMRIGHT),
+                                getAdjacentWithDirection(c, CASE_BOTTOM) , getAdjacentWithDirection(c, CASE_BOTTOMLEFT),
+                                getAdjacentWithDirection(c, CASE_LEFT), getAdjacentWithDirection(c, CASE_TOPLEFT)};
+        }
+
+        public bool isPlayable(Case c)
+        {
+            Case[] adjacentCase = getAdjacent(c);
+            int otherPlayer = getOtherPlayer();
+            foreach (Case cc in adjacentCase)
+            {
+                if(cc.Owner.PlayerColor == otherPlayer)
+                {
+                    Vector2 direction = Vector2.Normalize(new Vector2(cc.Column - c.Column, cc.Row - c.Row));
+                    Case nextCase = getAdjacentWithDirection(cc, direction);
+                    while(nextCase.Owner.PlayerColor != playerTurn || nextCase.Owner == null || nextCase == null)
+                    {
+                        nextCase = getAdjacentWithDirection(nextCase, direction);
+                    }
+                    return (nextCase != null && nextCase.Owner != null && nextCase.Owner.PlayerColor == playerTurn);
+                }
+            }
+             
+             
+            return false;
         }
 
         private void gameInit()
@@ -81,5 +125,12 @@ namespace Othello
             }
             graphicContext.update();
         }
+
+        public int getOtherPlayer()
+        {
+            return playerTurn == PLAYER_BLACK ? PLAYER_WHITE : PLAYER_BLACK;
+        }
+
+       
     }
 }
