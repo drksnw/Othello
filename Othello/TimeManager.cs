@@ -14,9 +14,13 @@ namespace Othello
         public event PropertyChangedEventHandler PropertyChanged;
         public void NotifyPropertyChanged(string propertyName)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("TimeP1"));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-        private DateTime _now;
+        private DateTime startP1;
+        private DateTime startP2;
+        private DateTime reflexionP1; 
+        private DateTime reflexionP2; 
+
         private MainWindow mw;
         private bool player;
 
@@ -24,7 +28,8 @@ namespace Othello
         {
             this.mw = mw;
             player = true;
-            _now = DateTime.Now;
+            startP1 = new DateTime(1, 1, 1);
+            startP2 = new DateTime(1, 1, 1);
             DispatcherTimer timer = new DispatcherTimer();
             timer.Interval = TimeSpan.FromMilliseconds(500);
             timer.Tick += new EventHandler(timer_Tick);
@@ -33,20 +38,20 @@ namespace Othello
 
         public DateTime TimeP1
         {
-            get { return _now; }
+            get { return reflexionP1; }
             private set
             {
-                _now = value;
-                 NotifyPropertyChanged("TimeP1");
+                reflexionP1 = value;
+                NotifyPropertyChanged("TimeP1");
             }
         }
 
         public DateTime TimeP2
         {
-            get { return _now; }
+            get { return reflexionP2; }
             private set
             {
-                _now = value;
+                reflexionP2 = value;
                 NotifyPropertyChanged("TimeP2");
             }
         }
@@ -55,10 +60,13 @@ namespace Othello
         {
             if (player)
             {
-                TimeP1 = DateTime.Now;
-            }else
+                startP1 = startP1.AddMilliseconds(500);
+                TimeP1 = startP1;
+            }
+            else
             {
-                TimeP2 = DateTime.Now;
+                startP2 = startP2.AddMilliseconds(500);
+                TimeP2 = startP2;
             }
             
         }

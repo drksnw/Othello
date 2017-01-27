@@ -23,20 +23,11 @@ namespace Othello
     {
 
         private Othellier game;
+        private TimeManager tm;
         
-
-        public string TimeP1
-        {
-            get
-            {
-                Debug.WriteLine("Avion");
-                return "gros pénis";
-            }
-        }
-
         public MainWindow()
         {
-            TimeManager tm = new TimeManager(this);
+            tm = new TimeManager(this);
             DataContext = tm;
             InitializeComponent();
             game = new Othellier(this);
@@ -129,12 +120,14 @@ namespace Othello
             if(game.getPlayableMoves()[game.getCase(colChar, row)])
             {
                 game.playMove(colChar, row);
+                tm.changePlayer();
             }
             Debug.WriteLine("Nb Possibilities : " + game.getNbPlayableCases());
             if(game.getNbPlayableCases() == 0)
             {
                 MessageBox.Show("Aucun coup possible pour " + (game.getOtherPlayer() == Othellier.PLAYER_BLACK ? "Pinkie Pie" : "Rainbow Dash") + " :(", "Pas de coup jouable", MessageBoxButton.OK);
                 game.switchPlayer();
+                tm.changePlayer();
                 if(game.getNbPlayableCases() == 0)
                 {
                     MessageBox.Show("Plus de coup possible !\nFin de la partie !", "Fin de la partie", MessageBoxButton.OK);
