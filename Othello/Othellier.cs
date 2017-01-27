@@ -66,24 +66,25 @@ namespace Othello
         }
 
         public bool isPlayable(Case c)
-        {
+        {/*
             Case[] adjacentCase = getAdjacent(c);
             int otherPlayer = getOtherPlayer();
             foreach (Case cc in adjacentCase)
             {
-                if(cc.Owner.PlayerColor == otherPlayer)
+                if(cc.Owner != null)
                 {
-                    Vector2 direction = Vector2.Normalize(new Vector2(cc.Column - c.Column, cc.Row - c.Row));
-                    Case nextCase = getAdjacentWithDirection(cc, direction);
-                    while(nextCase.Owner.PlayerColor != playerTurn || nextCase.Owner == null || nextCase == null)
+                    if (cc.Owner.PlayerColor == otherPlayer)
                     {
-                        nextCase = getAdjacentWithDirection(nextCase, direction);
+                        Vector2 direction = Vector2.Normalize(new Vector2(cc.Column - c.Column, cc.Row - c.Row));
+                        Case nextCase = getAdjacentWithDirection(cc, direction);
+                        while (nextCase.Owner.PlayerColor != playerTurn || nextCase.Owner == null || nextCase == null)
+                        {
+                            nextCase = getAdjacentWithDirection(nextCase, direction);
+                        }
+                        return (nextCase != null && nextCase.Owner != null && nextCase.Owner.PlayerColor == playerTurn);
                     }
-                    return (nextCase != null && nextCase.Owner != null && nextCase.Owner.PlayerColor == playerTurn);
                 }
-            }
-             
-             
+            }*/
             return false;
         }
 

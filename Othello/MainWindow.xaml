@@ -6,53 +6,58 @@
         xmlns:local="clr-namespace:Othello"
         xmlns:gif="https://github.com/XamlAnimatedGif/XamlAnimatedGif"
         mc:Ignorable="d"
-        Title="MainWindow" Height="600" Width="1024">
+        Title="My Little Poney - Best Othello Board EVER !!!" Height="600" Width="1024">
     <Window.Background>
         <ImageBrush/>
     </Window.Background>
+
     <Grid Name="gridOthello" Width="Auto" Height="Auto" ShowGridLines="True">
-        <Image gif:AnimationBehavior.SourceUri="/rainbow.gif" x:Name="image1" HorizontalAlignment="Left" Height="265" Margin="279,99,0,0" VerticalAlignment="Top" Width="488" RenderTransformOrigin="0.5,0.5">
-            <Image.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform ScaleX="2"/>
-                    <SkewTransform/>
-                    <RotateTransform/>
-                    <TranslateTransform/>
-                </TransformGroup>
-            </Image.RenderTransform>
-        </Image>
-        <Image gif:AnimationBehavior.SourceUri="/rainbowdash.gif" Margin="10,140,764,196" />
-        <Image gif:AnimationBehavior.SourceUri="/pinkiepie.gif"  Margin="760, -60, 0,0" Height=""/>
+        <Viewbox HorizontalAlignment="Left" VerticalAlignment="Top">
+            <Label x:Name="TimeP11" Content="{Binding TimeP1}" ContentStringFormat="HH:mm:ss" Margin="1, 10, 0, 100" Foreground="Magenta"/>
+        </Viewbox>
+        <Viewbox HorizontalAlignment="Right" VerticalAlignment="Top">
+            <Label x:Name="TimeP22"  Content="{Binding TimeP2}" ContentStringFormat="HH:mm:ss" Margin="1, 10, 0, 100" Foreground="Magenta"/>
+            <!--="{Binding TimeP2}"-->
+        </Viewbox>
+        <Viewbox VerticalAlignment="Center" HorizontalAlignment="Center">
+            <Image gif:AnimationBehavior.SourceUri="/rainbow.gif" x:Name="image1" HorizontalAlignment="Center" Height="265" Margin="100,100,100,100" VerticalAlignment="Center" Width="500" RenderTransformOrigin="0.5,0.5"/>
+        </Viewbox>
+        <Viewbox  VerticalAlignment="Center">
+            <Image gif:AnimationBehavior.SourceUri="/rainbowdash.gif" Margin="-100,150,764,196" Height="265" Width="300"/>
+        </Viewbox>
+        <Viewbox VerticalAlignment="Center">
+            <Image gif:AnimationBehavior.SourceUri="/pinkiepie.gif"  Margin="760, 0, 0,0" Height="265" Width="300"/>
+        </Viewbox>
 
-        <Grid x:Name="GameGrid" HorizontalAlignment="Left" Height="453" Margin="257,75,0,0" VerticalAlignment="Top" Width="548" Background="#660FE8E8" PreviewMouseLeftButtonDown="OnClick" MouseMove="OnHover">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*" />
-                <RowDefinition Height="*" />
-                <RowDefinition Height="*" />
-                <RowDefinition Height="*" />
-                <RowDefinition Height="*" />
-                <RowDefinition Height="*" />
-                <RowDefinition Height="*" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-
-        </Grid>
-
+        <Viewbox VerticalAlignment="Center" HorizontalAlignment="Center">
+            <Grid x:Name="GameGrid" HorizontalAlignment="Center" Height="453" Margin="75,75,75,75" VerticalAlignment="Center" Width="548" Background="#660FE8E8" PreviewMouseLeftButtonDown="OnClick" MouseMove="OnHover">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+            </Grid>
+        </Viewbox>
 
         <Grid.Background>
             <ImageBrush ImageSource="bg.jpg"/>
         </Grid.Background>
-
+        
 
     </Grid>
 </Window>

@@ -23,11 +23,24 @@ namespace Othello
     {
 
         private Othellier game;
+        
+
+        public string TimeP1
+        {
+            get
+            {
+                Debug.WriteLine("Avion");
+                return "gros pénis";
+            }
+        }
 
         public MainWindow()
         {
+            TimeManager tm = new TimeManager(this);
+            DataContext = tm;
             InitializeComponent();
             game = new Othellier(this);
+            
             update();
             
         }
