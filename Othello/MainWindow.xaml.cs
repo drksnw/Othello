@@ -126,7 +126,24 @@ namespace Othello
 
             row++;
             char colChar = (char)(col + 97);
-            game.playMove(colChar, row);
+            if(game.getPlayableMoves()[game.getCase(colChar, row)])
+            {
+                game.playMove(colChar, row);
+            }
+            Debug.WriteLine("Nb Possibilities : " + game.getNbPlayableCases());
+            if(game.getNbPlayableCases() == 0)
+            {
+                MessageBox.Show("Aucun coup possible pour " + (game.getOtherPlayer() == Othellier.PLAYER_BLACK ? "Pinkie Pie" : "Rainbow Dash") + " :(", "Pas de coup jouable", MessageBoxButton.OK);
+                game.switchPlayer();
+                if(game.getNbPlayableCases() == 0)
+                {
+                    MessageBox.Show("Plus de coup possible !\nFin de la partie !", "Fin de la partie", MessageBoxButton.OK);
+                    int nbBlack = game.getNbOwnedCases(Othellier.PLAYER_BLACK);
+                    int nbWhite = game.getNbOwnedCases(Othellier.PLAYER_WHITE);
+                    MessageBox.Show("Victoire de " + (nbBlack > nbWhite ? "Rainbow Dash avec " + nbBlack + " jetons (Contre " + nbWhite + ")" : "Pinkie Pie avec " + nbWhite + " jetons (Contre " + nbBlack + ")"));
+
+                }
+            }
         }
 
         private void OnHover(object sender, MouseEventArgs e)
@@ -159,10 +176,10 @@ namespace Othello
             row++;
             char colChar = (char)(col + 97);
 
-            if (game.isPlayable(game.getCase(colChar, row)))
+            /*if (game.isPlayable(game.getCase(colChar, row)))
             {
                 //Jeton en surbrillance
-            }
+            }*/
         }
     }
 

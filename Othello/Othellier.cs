@@ -9,6 +9,8 @@ namespace Othello
         private Player white;
         private Player black;
 
+        private Dictionary<Case, bool> playableMoves;
+
         //Player constants
         public static readonly int PLAYER_WHITE = 0;
         public static readonly int PLAYER_BLACK = 1;
@@ -42,6 +44,7 @@ namespace Othello
             black = new Player(true);
             board = new List<Case>();
             this.graphicContext = graphicContext;
+            playableMoves = new Dictionary<Case, bool>();
             for(char i = 'a'; i <= 'h'; i++)
             {
                 for(int j = 1; j <= 8; j++)
@@ -57,6 +60,11 @@ namespace Othello
             return getCase((char)(c.Column + dir.X), (int)(c.Row + dir.Y));
         }
 
+        public Dictionary<Case, bool> getPlayableMoves()
+        {
+            return playableMoves;
+        }
+
         public Case[] getAdjacent(Case c)
         {
             return new Case[] {getAdjacentWithDirection(c, CASE_TOP), getAdjacentWithDirection(c, CASE_TOPRIGHT),
@@ -66,26 +74,35 @@ namespace Othello
         }
 
         public bool isPlayable(Case c)
-        {/*
+        {
+            bool isPlayable = false;
             Case[] adjacentCase = getAdjacent(c);
             int otherPlayer = getOtherPlayer();
             foreach (Case cc in adjacentCase)
             {
-                if(cc.Owner != null)
+                if (cc != null && cc.Owner != null)
                 {
                     if (cc.Owner.PlayerColor == otherPlayer)
                     {
-                        Vector2 direction = Vector2.Normalize(new Vector2(cc.Column - c.Column, cc.Row - c.Row));
+                        Vector2 direction = new Vector2(cc.Column - c.Column, cc.Row - c.Row);
                         Case nextCase = getAdjacentWithDirection(cc, direction);
-                        while (nextCase.Owner.PlayerColor != playerTurn || nextCase.Owner == null || nextCase == null)
+                        while (nextCase != null && nextCase.Owner != null)
                         {
+                            if (nextCase.Owner.PlayerColor == playerTurn || nextCase.Owner == null)
+                            {
+                                break;
+                            }
                             nextCase = getAdjacentWithDirection(nextCase, direction);
+                            
                         }
-                        return (nextCase != null && nextCase.Owner != null && nextCase.Owner.PlayerColor == playerTurn);
+                        if (nextCase != null && nextCase.Owner != null && nextCase.Owner.PlayerColor == playerTurn)
+                        {
+                            isPlayable = true;
+                        }
                     }
-                }
-            }*/
-            return false;
+                } 
+            }         
+            return isPlayable;
         }
 
         private void gameInit()
@@ -94,6 +111,42 @@ namespace Othello
             getCase('e', 5).Owner = white;
             getCase('e', 4).Owner = black;
             getCase('d', 5).Owner = black;
+            setPlayableMoves();
+        }
+
+        public void setPlayableMoves()
+        {
+            playableMoves.Clear();
+            foreach(Case actCase in board)
+            {
+                playableMoves.Add(actCase, isPlayable(actCase));
+            }            
+        }
+
+        public int getNbPlayableCases()
+        {
+            int tmp = 0;
+            foreach(KeyValuePair<Case, bool> val in playableMoves)
+            {
+                if (val.Value && val.Key.Owner == null)
+                {
+                    tmp++;
+                }
+            }
+            return tmp;
+        }
+
+        public int getNbOwnedCases(int player)
+        {
+            int tmp = 0;
+            foreach(Case c in board)
+            {
+                if(c.Owner != null && c.Owner.PlayerColor == player)
+                {
+                    tmp++;
+                }
+            }
+            return tmp;
         }
 
         public Case getCase(char col, int row)
@@ -117,19 +170,68 @@ namespace Othello
                 if(playerTurn == PLAYER_BLACK)
                 {
                     selectedCase.Owner = black;
+                    foreach(Case c in getCasesToBeReturned(selectedCase))
+                    {
+                        c.Owner = black;
+                    }
                     playerTurn = PLAYER_WHITE;
                 } else
                 {
                     selectedCase.Owner = white;
+                    foreach (Case c in getCasesToBeReturned(selectedCase))
+                    {
+                        c.Owner = white;
+                    }
                     playerTurn = PLAYER_BLACK;
                 }
             }
             graphicContext.update();
+            setPlayableMoves();
+        }
+
+        private List<Case> getCasesToBeReturned(Case c)
+        {
+            List<Case> toReturn = new List<Case>();
+            Case[] adjacentCase = getAdjacent(c);
+            int otherPlayer = getOtherPlayer();
+            foreach (Case cc in adjacentCase)
+            {
+                if (cc != null && cc.Owner != null)
+                {
+                    if (cc.Owner.PlayerColor == otherPlayer)
+                    {
+                        List<Case> dirCases = new List<Case>();
+                        Vector2 direction = new Vector2(cc.Column - c.Column, cc.Row - c.Row);
+                        dirCases.Add(cc);
+                        Case nextCase = getAdjacentWithDirection(cc, direction);
+                        while (nextCase != null && nextCase.Owner != null)
+                        {
+                            if (nextCase.Owner.PlayerColor == playerTurn || nextCase.Owner == null)
+                            {
+                                break;
+                            }
+                            dirCases.Add(nextCase);
+                            nextCase = getAdjacentWithDirection(nextCase, direction);
+                        }
+                        if (nextCase != null && nextCase.Owner != null && nextCase.Owner.PlayerColor == playerTurn)
+                        {
+                            toReturn.AddRange(dirCases);
+                        }
+                    }
+                }
+            }
+            return toReturn;
         }
 
         public int getOtherPlayer()
         {
             return playerTurn == PLAYER_BLACK ? PLAYER_WHITE : PLAYER_BLACK;
+        }
+
+        public void switchPlayer()
+        {
+            playerTurn = getOtherPlayer();
+            setPlayableMoves();
         }
 
        
