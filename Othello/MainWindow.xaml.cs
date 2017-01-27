@@ -24,6 +24,8 @@ namespace Othello
 
         private Othellier game;
 
+        Image imgHover = new Image();
+
         public MainWindow()
         {
             InitializeComponent();
@@ -163,10 +165,38 @@ namespace Othello
             row++;
             char colChar = (char)(col + 97);
 
-            /*if (game.isPlayable(game.getCase(colChar, row)))
+            if (game.getPlayableMoves()[game.getCase(colChar, row)])
             {
-                //Jeton en surbrillance
-            }*/
+                if(imgHover == null)
+                {
+                    update();
+                    imgHover = new Image();
+                    Case c = game.getCase(colChar, row);
+                    int columnAsInt = c.Column - 97;
+                    //Jeton en surbrillance
+                    if (game.getOtherPlayer() != Othellier.PLAYER_BLACK)
+                    {
+                        imgHover.Source = new BitmapImage(new Uri("pack://application:,,,/Othello;component/rainbowdash_pawn.png"));
+                    }
+                    else
+                    {
+                        imgHover.Source = new BitmapImage(new Uri("pack://application:,,,/Othello;component/pinkiepie_pawn.png"));
+                    }
+                    imgHover.Opacity = 0.5;
+                    GameGrid.Children.Add(imgHover);
+                    Grid.SetRow(imgHover, c.Row - 1);
+                    Grid.SetColumn(imgHover, columnAsInt);
+                }
+            }
+            else
+            {
+                if(imgHover != null)
+                {
+                    update();
+                }
+                imgHover = null;
+            }
+            
         }
     }
 
