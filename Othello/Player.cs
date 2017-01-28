@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Othello
 {
-    class Player
+    public class Player
     {
         private bool isBlack;
         

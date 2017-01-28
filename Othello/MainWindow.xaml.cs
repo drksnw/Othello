@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,7 +13,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
+using System.Windows.Forms;
 
 namespace Othello
 {
@@ -24,16 +25,62 @@ namespace Othello
 
         private Othellier game;
         private TimeManager tm;
-        
 
-        public string TimeP1
+        public TimeManager TManager
         {
             get
             {
-                Debug.WriteLine("Avion");
-                return "gros pénis";
+                return tm;
             }
         }
+
+        public Othellier LogicContext
+        {
+            get
+            {
+                return game;
+            }
+        }
+
+        private void Event_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            //F5 to save
+            if(e.Key == Key.F5)
+            {
+                string savegame = game.ToString();
+                SaveFileDialog sfd = new SaveFileDialog();
+                sfd.Filter = "Othello save file|*.oth";
+                sfd.Title = "Save game";
+                sfd.ShowDialog();
+
+                if(sfd.FileName != "")
+                {
+                    StreamWriter writer = new StreamWriter(sfd.OpenFile());
+                    writer.WriteLine(savegame);
+                    writer.Dispose();
+                    writer.Close();
+                    
+                }
+            }
+
+            //F6 to load
+            if(e.Key == Key.F6)
+            {
+                OpenFileDialog ofd = new OpenFileDialog();
+                ofd.Filter = "Othello save file|*.oth";
+                ofd.Title = "Load game";
+                if(ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    StreamReader sr = new StreamReader(ofd.FileName);
+                    string loadgame = sr.ReadToEnd();
+                    sr.Close();
+                    game.FromString(loadgame);
+                    imgHover = null;
+                    update();
+                }
+            }
+        }
+        
 
         Image imgHover = new Image();
 
@@ -41,8 +88,8 @@ namespace Othello
         {
             tm = new TimeManager(this);
             DataContext = tm;
-            InitializeComponent();
             game = new Othellier(this);
+            InitializeComponent();
             
             update();
             
@@ -133,25 +180,28 @@ namespace Othello
             {
                 game.playMove(colChar, row);
                 tm.changePlayer();
+                tm.PointsP1 = 1;
+                tm.PointsP2 = 1;
+
             }
             Debug.WriteLine("Nb Possibilities : " + game.getNbPlayableCases());
             if(game.getNbPlayableCases() == 0)
             {
-                MessageBox.Show("Aucun coup possible pour " + (game.getOtherPlayer() == Othellier.PLAYER_BLACK ? "Pinkie Pie" : "Rainbow Dash") + " :(", "Pas de coup jouable", MessageBoxButton.OK);
+                System.Windows.MessageBox.Show("Aucun coup possible pour " + (game.getOtherPlayer() == Othellier.PLAYER_BLACK ? "Pinkie Pie" : "Rainbow Dash") + " :(", "Pas de coup jouable", System.Windows.MessageBoxButton.OK);
                 game.switchPlayer();
                 tm.changePlayer();
                 if(game.getNbPlayableCases() == 0)
                 {
-                    MessageBox.Show("Plus de coup possible !\nFin de la partie !", "Fin de la partie", MessageBoxButton.OK);
+                    System.Windows.MessageBox.Show("Plus de coup possible !\nFin de la partie !", "Fin de la partie", System.Windows.MessageBoxButton.OK);
                     int nbBlack = game.getNbOwnedCases(Othellier.PLAYER_BLACK);
                     int nbWhite = game.getNbOwnedCases(Othellier.PLAYER_WHITE);
-                    MessageBox.Show("Victoire de " + (nbBlack > nbWhite ? "Rainbow Dash avec " + nbBlack + " jetons (Contre " + nbWhite + ")" : "Pinkie Pie avec " + nbWhite + " jetons (Contre " + nbBlack + ")"));
+                    System.Windows.MessageBox.Show("Victoire de " + (nbBlack > nbWhite ? "Rainbow Dash avec " + nbBlack + " jetons (Contre " + nbWhite + ")" : "Pinkie Pie avec " + nbWhite + " jetons (Contre " + nbBlack + ")"));
 
                 }
             }
         }
 
-        private void OnHover(object sender, MouseEventArgs e)
+        private void OnHover(object sender, System.Windows.Input.MouseEventArgs e)
         {
             var point = Mouse.GetPosition(GameGrid);
 

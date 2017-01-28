@@ -6,14 +6,16 @@
         xmlns:local="clr-namespace:Othello"
         xmlns:gif="https://github.com/XamlAnimatedGif/XamlAnimatedGif"
         mc:Ignorable="d"
-        Title="My Little Poney - Best Othello Board EVER !!!" Height="600" Width="1024">
+        Title="My Little Poney - Best Othello Board EVER !!!" Height="600" Width="1024"
+        KeyDown="Event_KeyDown">
     <Window.Background>
         <ImageBrush/>
     </Window.Background>
 
     <Grid Name="gridOthello" Width="Auto" Height="Auto" ShowGridLines="True">
+        
         <Viewbox HorizontalAlignment="Left" VerticalAlignment="Top">
-            <Label x:Name="TimeP11" Content="{Binding TimeP1}" ContentStringFormat="HH:mm:ss" Margin="1, 10, 0, 100" Foreground="Magenta"/>
+            <Label x:Name="TimeP11" Content="{Binding TimeP1}" ContentStringFormat="HH:mm:ss" Margin="1, 10, 0, 100" Foreground="Cyan"/>
         </Viewbox>
         <Viewbox HorizontalAlignment="Right" VerticalAlignment="Top">
             <Label x:Name="TimeP22"  Content="{Binding TimeP2}" ContentStringFormat="HH:mm:ss" Margin="1, 10, 0, 100" Foreground="Magenta"/>
@@ -52,6 +54,13 @@
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
             </Grid>
+        </Viewbox>
+
+        <Viewbox HorizontalAlignment="Left" VerticalAlignment="Bottom">
+            <Label Content="{Binding Path='PointsP1'}" ContentStringFormat="Points: {0}" Margin="0, 15, 0, 0" HorizontalAlignment="Center" FontSize="2" Foreground="Cyan"/>
+        </Viewbox>
+        <Viewbox HorizontalAlignment="Right" VerticalAlignment="Bottom">
+            <Label Content="{Binding Path=PointsP2}" ContentStringFormat="Points: {0}" Margin="0, 15, 0, 0" FontSize="2" Foreground="Magenta"/>
         </Viewbox>
 
         <Grid.Background>

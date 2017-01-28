@@ -46,6 +46,30 @@ namespace Othello
             }
         }
 
+        public int PointsP1
+        {
+            get
+            {
+                return mw.LogicContext.getNbOwnedCases(Othellier.PLAYER_BLACK);
+            }
+            set
+            {
+                NotifyPropertyChanged("PointsP1");
+            }
+        }
+
+        public int PointsP2
+        {
+            get
+            {
+                return mw.LogicContext.getNbOwnedCases(Othellier.PLAYER_WHITE);
+            }
+            set
+            {
+                NotifyPropertyChanged("PointsP2");
+            }
+        }
+
         public DateTime TimeP2
         {
             get { return reflexionP2; }
@@ -74,6 +98,19 @@ namespace Othello
         public void changePlayer()
         {
             player = !player;
+        }
+
+        public void SetTime(int player, string timestring)
+        {
+            string[] times = timestring.Split(':');
+            if (player == Othellier.PLAYER_BLACK)
+            {                
+                startP1 = new DateTime(1,1,1).AddHours(int.Parse(times[0])).AddMinutes(int.Parse(times[1])).AddSeconds(int.Parse(times[2]));              
+            }
+            else
+            {
+                startP2 = new DateTime(1, 1, 1).AddHours(int.Parse(times[0])).AddMinutes(int.Parse(times[1])).AddSeconds(int.Parse(times[2]));
+            }
         }
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Othello
 {
-    class Case
+    public class Case
     {
         private char column;
         private int row;
@@ -44,6 +44,12 @@ namespace Othello
             this.column = column;
             this.row = row;
             owner = null;
+        }
+        public Case(char column, int row, Player owner)
+        {
+            this.column = column;
+            this.row = row;
+            this.owner = owner;
         }
 
 

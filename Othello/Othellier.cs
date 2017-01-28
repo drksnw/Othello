@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Numerics;
+using System.Text;
 
 namespace Othello
 {
-    class Othellier
+    public class Othellier
     {
         private List<Case> board;
         private Player white;
@@ -234,6 +235,61 @@ namespace Othello
             setPlayableMoves();
         }
 
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+
+            //Tour joueur
+            sb.Append("PLAYER_TURN;").Append(playerTurn).Append("\n");
+
+            //Temps P1
+            sb.Append("TIME_P1;").Append(graphicContext.TManager.TimeP1.ToString("HH:mm:ss")).Append("\n");
+
+            //Temps P2
+            sb.Append("TIME_P2;").Append(graphicContext.TManager.TimeP2.ToString("HH:mm:ss")).Append("\n");
+
+            //Board
+            foreach(Case c in board)
+            {
+                sb.Append("BOARD_CASE;").Append(c.Row).Append(";").Append(c.Column).Append(";").Append(c.Owner != null ? c.Owner.PlayerColor.ToString() : "null").Append("\n");
+            }
+
+            return sb.ToString();
+        }
+
+        public void FromString(string str)
+        {
+            board.Clear();
+            playerTurn = PLAYER_BLACK;
+            string[] lines = str.Split('\n');
+            foreach(string line in lines)
+            {
+                string[] datas = line.Split(';');
+                switch (datas[0])
+                {
+                    case "PLAYER_TURN":
+                        if(int.Parse(datas[1]) == PLAYER_WHITE)
+                        {
+                            graphicContext.TManager.changePlayer();
+                            playerTurn = PLAYER_WHITE;
+                        }
+                        break;
+                    case "TIME_P1":
+                        graphicContext.TManager.SetTime(PLAYER_BLACK, datas[1]);
+                        break;
+                    case "TIME_P2":
+                        graphicContext.TManager.SetTime(PLAYER_WHITE, datas[1]);
+                        break;
+                    case "BOARD_CASE":
+                        board.Add(new Othello.Case(char.Parse(datas[2]), int.Parse(datas[1]), datas[3] == "null" ? null : int.Parse(datas[3]) == PLAYER_WHITE ? white : black));
+                        break;
+                    default:
+                        break;
+                }
+            }
+            setPlayableMoves();
+        }
+        
        
     }
 }
