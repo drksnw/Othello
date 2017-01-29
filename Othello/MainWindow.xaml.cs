@@ -118,11 +118,9 @@ namespace Othello
             {
                 if(c.Owner != null)
                 {
-                    Debug.WriteLine("Position: "+c.Column+c.Row);
                     
                     int columnAsInt = c.Column - 97;
-
-                    Debug.WriteLine("Col as int: " + columnAsInt);
+                    
                     Image img = new Image();
                     if (c.Owner.PlayerColor == Othellier.PLAYER_BLACK)
                     {
@@ -184,7 +182,6 @@ namespace Othello
                 tm.PointsP2 = 1;
 
             }
-            Debug.WriteLine("Nb Possibilities : " + game.getNbPlayableCases());
             if(game.getNbPlayableCases() == 0)
             {
                 System.Windows.MessageBox.Show("Aucun coup possible pour " + (game.getOtherPlayer() == Othellier.PLAYER_BLACK ? "Pinkie Pie" : "Rainbow Dash") + " :(", "Pas de coup jouable", System.Windows.MessageBoxButton.OK);
@@ -259,8 +256,9 @@ namespace Othello
                 if(imgHover != null)
                 {
                     update();
+                    imgHover = null;
                 }
-                imgHover = null;
+                
             }
             
         }

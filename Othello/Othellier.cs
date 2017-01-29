@@ -76,6 +76,10 @@ namespace Othello
 
         public bool isPlayable(Case c)
         {
+            if(c.Owner != null) //Case occupée
+            {
+                return false;
+            }
             bool isPlayable = false;
             Case[] adjacentCase = getAdjacent(c);
             int otherPlayer = getOtherPlayer();

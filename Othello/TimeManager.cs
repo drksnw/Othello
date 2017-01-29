@@ -31,7 +31,7 @@ namespace Othello
             startP1 = new DateTime(1, 1, 1);
             startP2 = new DateTime(1, 1, 1);
             DispatcherTimer timer = new DispatcherTimer();
-            timer.Interval = TimeSpan.FromMilliseconds(500);
+            timer.Interval = TimeSpan.FromMilliseconds(1000);
             timer.Tick += new EventHandler(timer_Tick);
             timer.Start();
         }
@@ -84,12 +84,12 @@ namespace Othello
         {
             if (player)
             {
-                startP1 = startP1.AddMilliseconds(500);
+                startP1 = startP1.AddMilliseconds(1000);
                 TimeP1 = startP1;
             }
             else
             {
-                startP2 = startP2.AddMilliseconds(500);
+                startP2 = startP2.AddMilliseconds(1000);
                 TimeP2 = startP2;
             }
             

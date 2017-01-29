@@ -60,7 +60,7 @@
         </Viewbox>
         <Viewbox HorizontalAlignment="Right" VerticalAlignment="Bottom">
             <Label Content="{Binding 'PointsP2'}" ContentStringFormat="Points: {0}" Margin="50, 15, 0, 0" FontSize="2" Foreground="Magenta"/>
-        </Viewbox>
+        </Viewbox> 
 
         <Grid.Background>
             <ImageBrush ImageSource="bg.jpg"/>
